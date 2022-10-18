@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist-electron/main/index.js",
   "description": "Really simple Electron + Vue + Vite boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "author": "Kananek T. <info.dvgamer@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -15,14 +15,23 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",
+    "@vue/composition-api": "^1.7.1",
+    "@vue/eslint-config-typescript": "^11.0.2",
     "electron": "^21.1.0",
     "electron-builder": "^23.3.3",
+    "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.6.0",
+    "prettier": "^2.7.1",
+    "sass": "^1.42.1",
+    "sass-loader": "^10.2.0",
     "typescript": "^4.8.4",
     "vite": "^3.1.4",
     "vite-electron-plugin": "^0.4.6",
     "vite-plugin-electron-renderer": "^0.10.1",
-    "vue": "^3.2.40",
-    "vue-tsc": "^0.40.13"
+    "vue": "^3.2.41",
+    "vue-tsc": "^1.0.8"
   },
   "debug": {
     "env": {
@@ -35,5 +44,8 @@
     "vite",
     "vue3",
     "vue"
-  ]
+  ],
+  "dependencies": {
+    "@types/node": "18.8.0"
+  }
 }

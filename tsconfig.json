@@ -6,6 +6,8 @@
     "importHelpers": true,
     "jsx": "preserve",
     "esModuleInterop": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": false,
     "resolveJsonModule": true,
     "sourceMap": true,
     "baseUrl": "./",

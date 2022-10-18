@@ -19,7 +19,7 @@ export default defineConfig({
       },
       // Will start Electron via VSCode Debug
       plugins: process.env.VSCODE_DEBUG
-        ? [customStart(debounce(() => console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')))]
+        ? [customStart(debounce(() => console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App')))]
         : undefined,
     }),
     // Use Node.js API in the Renderer-process
@@ -27,17 +27,19 @@ export default defineConfig({
       nodeIntegration: true,
     }),
   ],
-  server: process.env.VSCODE_DEBUG ? (() => {
-    const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
-    return {
-      host: url.hostname,
-      port: +url.port,
-    }
-  })() : undefined,
+  server: process.env.VSCODE_DEBUG
+    ? (() => {
+        const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
+        return {
+          host: url.hostname,
+          port: +url.port,
+        }
+      })()
+    : undefined,
   clearScreen: false,
 })
 
-function debounce<Fn extends (...args: any[]) => void>(fn: Fn, delay = 299) {
+function debounce<Fn extends (...args: unknown[]) => void>(fn: Fn, delay = 299) {
   let t: NodeJS.Timeout
   return ((...args) => {
     clearTimeout(t)
