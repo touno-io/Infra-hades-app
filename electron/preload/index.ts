@@ -31,6 +31,7 @@ const safeDOM = {
  * https://projects.lukehaas.me/css-loaders
  * https://matejkustec.github.io/SpinThatShit
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function useLoading() {
   const className = `loaders-css__square-spin`
   const styleContent = `
@@ -82,11 +83,13 @@ function useLoading() {
 
 // ----------------------------------------------------------------------
 
-const { appendLoading, removeLoading } = useLoading()
-domReady().then(appendLoading)
+// const { appendLoading, removeLoading } = useLoading()
+domReady().then(() => {
+  console.log('dom: ready')
+})
 
-window.onmessage = ev => {
-  ev.data.payload === 'removeLoading' && removeLoading()
-}
+// window.onmessage = ev => {
+//   ev.data.payload === 'removeLoading' && removeLoading()
+// }
 
-setTimeout(removeLoading, 4999)
+// setTimeout(removeLoading, 4999)

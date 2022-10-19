@@ -57,7 +57,7 @@ async function createWindow() {
     resizable: true,
     alwaysOnTop: false,
     titleBarStyle: 'hidden',
-    titleBarOverlay: true,
+    titleBarOverlay: cfg.titleBar,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
