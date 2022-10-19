@@ -15,6 +15,16 @@ process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_E
 import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
+import { name } from '../../package.json'
+import cfg from '../default.config'
+
+import {  } from 'process'
+
+console.log('release:', release())
+// setInterval(() => {
+//   console.log('process:', process.cpuUsage())
+//   console.log('process:', process.memoryUsage())
+// }, 1000)
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -40,8 +50,14 @@ const indexHtml = join(process.env.DIST, 'index.html')
 
 async function createWindow() {
   win = new BrowserWindow({
-    title: 'Main window',
+    title: name,
     icon: join(process.env.PUBLIC, 'favicon.ico'),
+    show: true,
+    movable: true,
+    resizable: true,
+    alwaysOnTop: false,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -50,6 +66,10 @@ async function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    minWidth: cfg.width,
+    minHeight: cfg.height,
+    width: cfg.width,
+    height: cfg.height
   })
 
   if (app.isPackaged) {

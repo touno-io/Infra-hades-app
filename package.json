@@ -1,5 +1,5 @@
 {
-  "name": "infar-app",
+  "name": "infra-app",
   "version": "1.0.0",
   "main": "dist-electron/main/index.js",
   "description": "Really simple Electron + Vue + Vite boilerplate.",
