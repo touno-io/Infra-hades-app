@@ -1,0 +1,18 @@
+// background-color: #1c1c1f;
+// 262628 414244
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+// @import url('bootstrap/scss/bootstrap-grid.scss');
+
+:root {
+  --color-text: #e8e8e8;
+  --color-bg: #1c1c1f;
+}
+
+body {
+  user-select: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: .85rem;
+  font-weight: 400;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}

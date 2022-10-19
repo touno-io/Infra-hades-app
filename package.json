@@ -1,5 +1,5 @@
 {
-  "name": "infra-app",
+  "name": "infra",
   "version": "1.0.0",
   "main": "dist-electron/main/index.js",
   "description": "Really simple Electron + Vue + Vite boilerplate.",
@@ -15,6 +15,10 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/vue-fontawesome": "^2.0.8",
     "@types/node": "18.8.0",
     "@vitejs/plugin-vue": "^3.1.2",
     "@vue/composition-api": "^1.7.1",
@@ -49,5 +53,6 @@
     "vue"
   ],
   "dependencies": {
+    "bootstrap": "^5.2.2"
   }
 }

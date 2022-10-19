@@ -12,8 +12,7 @@
         "owner": "typescript",
         "fileLocation": "relative",
         "pattern": {
-          // TODO: correct "regexp"
-          "regexp": "^([a-zA-Z]\\:\/?([\\w\\-]\/?)+\\.\\w+):(\\d+):(\\d+): (ERROR|WARNING)\\: (.*)$",
+          "regexp": "^([a-zA-Z]\\:/?([\\w\\-]/?)+\\.\\w+):(\\d+):(\\d+): (ERROR|WARNING)\\: (.*)$",
           "file": 1,
           "line": 3,
           "column": 4,
@@ -22,9 +21,16 @@
         },
         "background": {
           "activeOnStart": true,
-          "endsPattern": "^.*[startup] Electron App.*$",
+          "endsPattern": "^.*[startup] Electron App.*$"
         }
       }
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "npm: dev",
+      "detail": "vite"
     }
   ]
 }
