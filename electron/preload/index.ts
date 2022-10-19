@@ -85,6 +85,7 @@ function useLoading() {
 
 // const { appendLoading, removeLoading } = useLoading()
 domReady().then(() => {
+  document.body.style.backgroundColor = '#1c1c1f'
   console.log('dom: ready')
 })
 

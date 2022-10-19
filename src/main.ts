@@ -16,7 +16,7 @@ init().then(() => {
   createApp(App)
     .component('Fa', FontAwesomeIcon)
     .mount('#app')
-}).catch(ex => {
+}).catch((ex: Error) => {
   console.log(ex)
 })
 
