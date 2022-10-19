@@ -3,14 +3,44 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div class="logo-box">
-    <img class="logo vite" src="./assets/vite.svg" />
-    <img class="logo electron" src="./assets/electron.svg" />
-    <img class="logo vue" src="./assets/vue.svg" />
+  <div class="title">
+    <button class="menu"><fa icon="fa-solid fa-ellipsis" /></button>
   </div>
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <div class="static-public">
-    Place static files into the <code>/public</code> folder
-    <img :src="'./node.png'" width="77" height="77" />
+  <div class="panel">
+    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+    <div class="static-public">
+      Place static files into the <code>/public</code> folder
+    </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+#app {
+  > .title {
+    grid-area: title;
+
+    button.menu {
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      width: 45px;
+      height: 30px;
+      font-size: 1rem;
+      color: var(--color-symbol);
+      background-color: transparent;
+      border: none;
+
+      > svg {
+        margin-top: 7px;
+      }
+    }
+    button.menu:hover {
+      background-color: #3a3a3d;
+    }
+  }
+  > .panel {
+    grid-area: panel;
+  }
+}
+
+</style>

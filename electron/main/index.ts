@@ -12,7 +12,7 @@ process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, Menu, ipcMain } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
 import { name } from '../../package.json'
@@ -71,6 +71,37 @@ async function createWindow() {
     width: cfg.width,
     height: cfg.height
   })
+
+  // Build custome menu
+  const menuTitle = Menu.buildFromTemplate([
+    // {
+    //   label: 'Always On Top',
+    //   sublabel: 'and lock window mode.',
+    //   type: 'checkbox',
+    //   checked: settings.getSync('ontop', false),
+    //   click: (menuItem) => {
+    //     settings.set('ontop', menuItem.checked)
+    //     mainApp.window.setAlwaysOnTop(menuItem.checked)
+    //     mainApp.window.setMovable(!menuItem.checked)
+    //     mainApp.window.setSkipTaskbar(menuItem.checked)
+    //     // mainApp.window.set
+    //     const position = getPosition()
+    //     if (position) mainApp.window.setPosition(position.x, position.y)
+    //   }
+    // },
+    { type: 'separator' },
+    { label: 'Exit', role: 'quit' }
+  ])
+
+  ipcMain.handle('open-menu', () => {
+    menuTitle.popup({
+      window: win,
+      x: 0,
+      y: 0
+    })
+  })
+  
+  win.setMenu(menuTitle)
 
   if (app.isPackaged) {
     win.loadFile(indexHtml)

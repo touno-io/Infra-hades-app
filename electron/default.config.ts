@@ -3,6 +3,6 @@ export default {
   height: 725,
   titleBar: {
     color: '#1c1c1f',
-    symbolColor: '#74b1be'
+    symbolColor: '#4d78cc'
   }
 }

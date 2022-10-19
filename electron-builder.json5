@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "infra",
+  "appId": "infra-hades",
   "asar": true,
   "directories": {
     "output": "release/${version}"

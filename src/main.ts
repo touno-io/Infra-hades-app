@@ -11,9 +11,12 @@ import './assets/scss/global.scss'
 import './fontAwesome.ts'
 
 postMessage({ payload: 'removeLoading' }, '*')
-const app = createApp(App).component('fa', FontAwesomeIcon)
 
 init().then(() => {
-  return app.mount('#app')
+  createApp(App)
+    .component('Fa', FontAwesomeIcon)
+    .mount('#app')
+}).catch(ex => {
+  console.log(ex)
 })
 
