@@ -42,7 +42,7 @@ export default defineConfig({
       nodeIntegration: true,
     }),
     // wasm pack
-    wasmPack(['./hades'])
+    wasmPack(['.\\hades'])
   ],
   server: process.env.VSCODE_DEBUG
     ? (() => {
