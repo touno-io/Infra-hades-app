@@ -2,33 +2,19 @@
 import { ipcRenderer } from 'electron'
 import HelloWorld from './components/HelloWorld.vue'
 
-// const mouseTitleMoveEvent = async (e: MouseEvent) => {
-//   const target = e.target as HTMLTextAreaElement
-//   if (!e.isTrusted || !target || target.className !== 'title' || e.buttons !== 1) return e.preventDefault()
-//   return ipcRenderer.invoke('title-move', {
-//     clientX: e.clientX,
-//     clientY: e.clientY,
-//     x: e.screenX,
-//     y: e.screenY,
-//     mouse: undefined
-//   })
-// }
-// const mouseTitleToggleEvent = async (e: MouseEvent) => {
-//   if (!e.isTrusted) return e.preventDefault()
-//   return ipcRenderer.invoke('title-toggle', { 
-//     clientX: e.clientX,
-//     clientY: e.clientY,
-//     x: e.screenX,
-//     y: e.screenY,
-//     mouse: e.buttons
-//   })
-
-// }
 </script>
 
 <template>
   <div class="title">
-    <button class="menu" @click.prevent="ipcRenderer.invoke('open-menu')"><fa icon="fa-solid fa-ellipsis" /></button>
+    <div class="bar d-flex position-relative align-items-stretch">
+      <button class="menu" @click.prevent="ipcRenderer.invoke('open-menu')">
+        <div class="logo-menu" />
+      </button>
+      <div class="logo d-flex align-items-center justify-content-center flex-fill">
+        <img src="./assets/logo.svg" height="22" width="22" alt="Infar Hades" />
+        <span class="text">Infra.Hades</span>
+      </div>
+    </div>
   </div>
   <div class="panel">
     <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
@@ -38,32 +24,52 @@ import HelloWorld from './components/HelloWorld.vue'
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #app {
   > .title {
     -webkit-app-region: drag;
     user-select: none;
     grid-area: title;
-  
-    button.menu {
-      -webkit-app-region: no-drag !important;
-      top: 0px;
-      left: 0px;
-      position: absolute;
-      width: 45px;
-      height: 30px;
-      font-size: 1rem;
-      color: var(--color-symbol);
-      background-color: transparent;
-      border: none;
 
-      > svg {
-        margin-top: 7px;
+    .bar {
+      gap: 4px;
+      margin: -8px 0 0 -8px;
+      width: 100%;
+      height: 31px;
+      background-color: var(--user-titleBar-activeBackground);
+      
+      &.inactive {
+        background-color: var(--user-titleBar-inactiveBackground);
+      }
+
+      > .logo > .text {
+        font-size: 0.75rem;
+        font-family: 'Mulish';
+        font-weight: 700;
+      }
+      
+      button.menu {
+        -webkit-app-region: no-drag !important;
+        position: relative;
+        width: 45px;
+        color: v-bind('$user.titleBar.activeForeground');
+        background-color: var(--user-titleBar-activeBackground);
+        border: none;
+
+        *, ::after, ::before {
+          animation: none !important;
+        }
+
+        > .logo-menu {
+          transform: scale(0.16) translateX(40px) translateY(-20px);
+        }
+
+        &:hover {
+          background-color: #ffffff1f;
+        }
       }
     }
-    button.menu:hover {
-      background-color: #3a3a3d;
-    }
+  
   }
   > .panel {
     grid-area: panel;

@@ -25,29 +25,65 @@ export const safeDOM = {
   },
 }
 
-export const createPreloading = (): { append(): void; remove(): void } => {
+export const createPreloading = (user: Global.UserSetting): { append(): void; remove(): void } => {
+  // const rootTheme: string = ''
   /**
    * https://tobiasahlin.com/spinkit
    * https://connoratherton.com/loaders
    * https://projects.lukehaas.me/css-loaders
    * https://matejkustec.github.io/SpinThatShit
    */
-  const className = `loaders-css__square-spin`
-  const styleContent = `
-@keyframes square-spin {
-  25% { transform: perspective(100px) rotateX(180deg) rotateY(0); }
-  50% { transform: perspective(100px) rotateX(180deg) rotateY(180deg); }
-  75% { transform: perspective(100px) rotateX(0) rotateY(180deg); }
-  100% { transform: perspective(100px) rotateX(0) rotateY(0); }
+  const className = `logo-menu`
+  const styleContent = `:root {
+  --system-titleBar-height: 1.65em;
+  --user-textColor: ${user.textColor};
+  --user-titleBar-activeForeground: ${user.titleBar.activeForeground};
+  --user-titleBar-activeBackground: ${user.titleBar.activeBackground};
+  --user-titleBar-inactiveForeground: ${user.titleBar.inactiveForeground};
+  --user-titleBar-inactiveBackground: ${user.titleBar.inactiveBackground};
 }
-.${className} > div {
-  animation-fill-mode: both;
-  width: 50px;
-  height: 50px;
-  background: #fff;
-  animation: square-spin 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
-.app-loading-wrap {
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes loader {
+  0% { box-shadow: 0 40px 0 var(--user-titleBar-activeForeground); }
+  100% { box-shadow: 0 20px 0 var(--user-titleBar-activeForeground); }
+}
+.fade-out { animation: fadeOut .3s both; }
+.fade-in { animation: fadeIn .3s both; }
+
+.${className}, .${className}:after, .${className}:before  {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 40px 0 var(--user-titleBar-activeForeground);
+  animation: loader 0.8s ease-in-out alternate infinite;
+}
+.${className}:after, .${className}:before {
+  content: '';
+  position: absolute;
+}
+
+.${className} {
+  position: relative;
+  animation-delay: 0.32s;
+  transform: scale(0.2);
+}
+.${className}:after {
+  right: -30px;
+  animation-delay: 0.16s;
+}
+.${className}:before {
+  left: -30px;
+  animation-delay: 0.48s;
+}
+.wrap {
   position: fixed;
   top: 0;
   left: 0;
@@ -56,26 +92,32 @@ export const createPreloading = (): { append(): void; remove(): void } => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #282c34;
+  background: var(--user-titleBar-activeBackground);
   z-index: 9;
 }
     `
   const oStyle = document.createElement('style')
   const oDiv = document.createElement('div')
 
-  oStyle.id = 'app-loading-style'
+  oStyle.id = 'loading-style'
   oStyle.innerHTML = styleContent
-  oDiv.className = 'app-loading-wrap'
-  oDiv.innerHTML = `<div class="${className}"><div></div></div>`
+  oDiv.id = 'loading'
+  oDiv.className = 'wrap'
+  oDiv.innerHTML = `<div class="${className}"></div>`
 
+  let tPreload: NodeJS.Timeout
   return {
     append() {
       safeDOM.append(document.head, oStyle)
       safeDOM.append(document.body, oDiv)
+      tPreload = setTimeout(this.remove, 5000)
     },
     remove() {
-      safeDOM.remove(document.head, oStyle)
-      safeDOM.remove(document.body, oDiv)
+      clearTimeout(tPreload)
+      oDiv.classList.add('fade-out')
+      setTimeout(() => {
+        safeDOM.remove(document.body, oDiv)
+      }, 300)
     },
   }
 }

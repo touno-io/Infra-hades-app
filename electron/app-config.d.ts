@@ -1,18 +1,25 @@
-declare namespace App {
-  export interface Setting {
+declare namespace Global {
+  export interface AppSetting {
     config: string
+    width: number
+    height: number
   }
   
   export interface UserSetting {
-    color: string
-    backgroundColor: string
+    textColor: string
+    titleBar: {
+      activeBackground: string
+      activeForeground: string
+      inactiveBackground: string
+      inactiveForeground: String
+    }
   }
 }
 
-interface MousePosition {
-  clientX: number,
-  clientY: number,
-  mouse?: number,
-  x: number,
+interface SettingPosition {
+  maximized: boolean
+  width: number
+  height: number
+  x: number
   y: number
 }

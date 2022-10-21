@@ -1,3 +1,19 @@
+import {
+  app,
+  BrowserWindow,
+  shell,
+  Menu,
+  ipcMain,
+  screen
+} from 'electron'
+import { release, arch, platform } from 'os'
+import { join } from 'path'
+import { name } from '../../package.json'
+import { initilizeApp } from '../user-config'
+import settings from 'electron-settings'
+
+import {  } from 'process'
+
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -12,22 +28,6 @@ process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
-import {
-  app,
-  BrowserWindow,
-  shell,
-  Menu,
-  ipcMain,
-  screen
-} from 'electron'
-import { release } from 'os'
-import { join } from 'path'
-import { name } from '../../package.json'
-import { initilizeConfig, config } from './user-config'
-
-import {  } from 'process'
-
-console.log('release:', release())
 // setInterval(() => {
 //   console.log('process:', process.cpuUsage())
 //   console.log('process:', process.memoryUsage())
@@ -56,6 +56,17 @@ const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 
 async function createWindow() {
+  const { config, user } = await initilizeApp()
+  const lasted = settings.getSync('position') as any as SettingPosition
+
+  console.log('  os:', {
+    arch: arch(),
+    platform: platform(),
+    release: release()
+  })
+  console.log(' pos:', lasted)
+  
+
   win = new BrowserWindow({
     title: name,
     icon: join(process.env.PUBLIC, 'favicon.ico'),
@@ -65,7 +76,10 @@ async function createWindow() {
     frame: false,
     alwaysOnTop: false,
     titleBarStyle: 'hidden',
-    titleBarOverlay: config.titleBar,
+    titleBarOverlay: {
+      color: user.titleBar.activeBackground,
+      symbolColor: user.titleBar.activeForeground
+    },
     autoHideMenuBar: true,
     webPreferences: {
       preload,
@@ -77,9 +91,12 @@ async function createWindow() {
     },
     minWidth: config.width,
     minHeight: config.height,
-    width: config.width,
-    height: config.height
+    width: lasted.width,
+    height: lasted.height,
+    x: lasted.x,
+    y: lasted.y
   })
+  if (lasted.maximized) win.maximize()
 
   // Build custome menu
   const menuTitle = Menu.buildFromTemplate([
@@ -103,7 +120,7 @@ async function createWindow() {
     { label: 'Exit', role: 'quit' }
   ])
 
-  const savePosition = () => {
+  const eventSetPosition = () => {
     let [ winX, winY ] = win.getPosition()
     const { width, height } = screen.getPrimaryDisplay().workAreaSize
     const [ winWidth, winHeight ] = win.getSize()
@@ -112,16 +129,25 @@ async function createWindow() {
     if (winY < 0) winY = 0
     if (winY > (height - winHeight)) winY = (height - winHeight)
     // settings.set('position', { x: winX, y: winY })
-    console.log({ winX, winY })
-    console.log({ winWidth, winHeight, maximized: win.isMaximized() })
-    
+    const config = {
+      maximized: win.isMaximized(),
+      width: winWidth,
+      height: winHeight,
+      x: winX,
+      y: winY,
+    }
+
+    if (config.maximized) {
+      settings.set('position.maximized', config.maximized)
+    } else {
+      settings.set('position', config)
+    }
   }
   
   let moveId = null
   const onMoveEvent = () => {
-    // if (settings.getSync('ontop', false)) return
     if (moveId) clearTimeout(moveId)
-    moveId = setTimeout(savePosition, 200)
+    moveId = setTimeout(eventSetPosition, 200)
   }
   win.on('unmaximize', onMoveEvent)
   win.on('maximize', onMoveEvent)
@@ -129,9 +155,7 @@ async function createWindow() {
   win.on('move', onMoveEvent)
 
 
-  ipcMain.handle('init-config', async () => {
-    await initilizeConfig()
-  })
+  ipcMain.handle('init-config', initilizeApp)
   
   ipcMain.handle('open-menu', () => {
     menuTitle.popup({ window: win, x: 22, y: 16 })
