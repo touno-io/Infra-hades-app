@@ -12,11 +12,18 @@ process.env.DIST_ELECTRON = join(__dirname, '..')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
-import { app, BrowserWindow, shell, Menu, ipcMain, screen } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  shell,
+  Menu,
+  ipcMain,
+  screen
+} from 'electron'
 import { release } from 'os'
 import { join } from 'path'
 import { name } from '../../package.json'
-import cfg from '../default.config'
+import { initilizeConfig, config } from './user-config'
 
 import {  } from 'process'
 
@@ -58,7 +65,7 @@ async function createWindow() {
     frame: false,
     alwaysOnTop: false,
     titleBarStyle: 'hidden',
-    titleBarOverlay: cfg.titleBar,
+    titleBarOverlay: config.titleBar,
     autoHideMenuBar: true,
     webPreferences: {
       preload,
@@ -68,10 +75,10 @@ async function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    minWidth: cfg.width,
-    minHeight: cfg.height,
-    width: cfg.width,
-    height: cfg.height
+    minWidth: config.width,
+    minHeight: config.height,
+    width: config.width,
+    height: config.height
   })
 
   // Build custome menu
@@ -105,7 +112,9 @@ async function createWindow() {
     if (winY < 0) winY = 0
     if (winY > (height - winHeight)) winY = (height - winHeight)
     // settings.set('position', { x: winX, y: winY })
-    // console.log({ winX, winY })
+    console.log({ winX, winY })
+    console.log({ winWidth, winHeight, maximized: win.isMaximized() })
+    
   }
   
   let moveId = null
@@ -114,33 +123,20 @@ async function createWindow() {
     if (moveId) clearTimeout(moveId)
     moveId = setTimeout(savePosition, 200)
   }
-
+  win.on('unmaximize', onMoveEvent)
+  win.on('maximize', onMoveEvent)
   win.on('moved', onMoveEvent)
   win.on('move', onMoveEvent)
 
+
+  ipcMain.handle('init-config', async () => {
+    await initilizeConfig()
+  })
+  
   ipcMain.handle('open-menu', () => {
     menuTitle.popup({ window: win, x: 22, y: 16 })
   })
   
-  // let position: { x: number, y: number }
-  // ipcMain.handle('title-move', (event, e: MousePosition) => {
-  //   // if (!dragWin) return event.preventDefault()
-  //   const [ x, y ] = win.getPosition()
-  //   // console.log('current:', { x, y }, { x: e.clientX, y: e.clientY })
-  //   console.log('x:', e.clientX - position.x, 'y:', e.clientY - position.y)
-  //   win.setPosition(x+e.clientX - position.x, y+e.clientY - position.y, false)
-
-  //   position = { x: e.clientX, y: e.clientY }
-  // })
-
-  // ipcMain.handle('title-toggle', (event, e: MousePosition) => {
-  //   if (e.mouse === 1) position = { x: e.clientX, y: e.clientY }
-  //   if (e.mouse === 0) position = null
-
-    
-  //   console.log('toggle:', { x: e.clientX, y: e.clientY })
-  // })
-
   if (app.isPackaged) {
     win.loadFile(indexHtml)
   } else {

@@ -1,5 +1,6 @@
 // @ts-ignore
 import init from 'hades-app'
+import { ipcRenderer } from 'electron'
 
 import { createApp } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -10,9 +11,12 @@ import 'bootstrap/scss/bootstrap-grid.scss'
 import './assets/scss/global.scss'
 import './fontAwesome.ts'
 
-postMessage({ payload: 'removeLoading' }, '*')
 
-init().then(() => {
+Promise.all([
+  init(),
+  ipcRenderer.invoke('init-config'),
+]).then(() => {
+  postMessage({ payload: 'removeLoading' }, '*')
   createApp(App)
     .component('Fa', FontAwesomeIcon)
     .mount('#app')
