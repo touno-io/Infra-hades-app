@@ -23,8 +23,10 @@
     "@vitejs/plugin-vue": "^3.1.2",
     "@vue/composition-api": "^1.7.1",
     "@vue/eslint-config-typescript": "^11.0.2",
-    "electron": "^21.1.0",
+    "bootstrap": "^5.2.2",
+    "electron": "^21.2.0",
     "electron-builder": "^23.3.3",
+    "electron-settings": "^4.0.2",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -53,6 +55,6 @@
     "vue"
   ],
   "dependencies": {
-    "bootstrap": "^5.2.2"
+    "yaml": "^2.1.3"
   }
 }
