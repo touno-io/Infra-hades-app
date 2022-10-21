@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "wasm": "wasm-pack build ./hades --target web",
+    "wasm": "wasm-pack build .\\hades --target web",
     "dev": "vite",
     "build": "yarn wasm && vue-tsc --noEmit && vite build && electron-builder"
   },
