@@ -59,13 +59,12 @@ async function createWindow() {
   const { config, user } = await initilizeApp()
   const lasted = settings.getSync('position') as any as SettingPosition
 
-  console.log('  os:', {
+  console.log('os:', {
     arch: arch(),
     platform: platform(),
     release: release()
   })
   console.log(' pos:', lasted)
-  
 
   win = new BrowserWindow({
     title: name,

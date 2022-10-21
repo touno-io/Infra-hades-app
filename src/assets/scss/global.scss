@@ -18,6 +18,10 @@ body {
     grid-template-rows: [row1-start] var( --system-titleBar-height);
   }
 
+  :focus-visible  {
+    outline: none !important;
+  }
+  
   // ScrollBar
   ::-webkit-scrollbar {
     width: 5px;
