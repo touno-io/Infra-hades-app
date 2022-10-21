@@ -1,5 +1,5 @@
 // @ts-ignore
-import init from 'hades-app'
+import init from 'hades'
 import { ipcRenderer } from 'electron'
 
 import { createApp } from 'vue'
