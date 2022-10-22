@@ -10,7 +10,8 @@
     "wasm": "wasm-pack build .\\hades --target web",
     "dev": "vite",
     "build:vite": "vite build && mv ./dist/assets/*.svg ./dist/ >nul",
-    "build": "yarn wasm && vue-tsc --noEmit && yarn build:vite && electron-builder"
+    "build": "yarn wasm && vue-tsc --noEmit && yarn build:vite && electron-builder",
+    "prepare": "husky install"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
@@ -31,6 +32,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
+    "husky": "^8.0.1",
     "prettier": "^2.7.1",
     "sass": "^1.42.1",
     "sass-loader": "^10.2.0",
