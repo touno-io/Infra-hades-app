@@ -5,7 +5,7 @@ import electron from 'vite-electron-plugin'
 import wasmPack from 'vite-plugin-wasm-pack'
 import { customStart } from 'vite-electron-plugin/plugin'
 import renderer from 'vite-plugin-electron-renderer'
-// import { VitePluginFonts } from 'vite-plugin-fonts'
+import { debounce } from './electron/helper'
 import pkg from './package.json'
 
 rmSync('dist-electron', { recursive: true, force: true })
@@ -18,12 +18,14 @@ export default defineConfig({
   plugins: [
     vue(),
     // VitePluginFonts({
-    //   google: {
+    //   custom: {
+    //     preload: true,
+    //     prefetch: true,
     //     families: [
-    //       'Open+Sans',
-    //       { name: 'Roboto', styles: 'wght@400;700' },
-    //       { name: 'Poppins', styles: 'wght@400;700' },
-    //       { name: 'Mulish', styles: 'wght@400;700' }
+    //       { name: 'OpenSans', src: './src/assets/fonts/Open_Sans*.woff2' },
+    //       { name: 'Roboto', src: './src/assets/fonts/Roboto*.woff2', },
+    //       { name: 'Poppins', src: './src/assets/fonts/Poppins*.woff2' },
+    //       { name: 'Mulish', src: './src/assets/fonts/Mulish*.woff2' }
     //     ]
     //   },
     // }),
@@ -55,11 +57,3 @@ export default defineConfig({
     : undefined,
   clearScreen: false,
 })
-
-function debounce<Fn extends (...args: unknown[]) => void>(fn: Fn, delay = 299) {
-  let t: NodeJS.Timeout
-  return ((...args) => {
-    clearTimeout(t)
-    t = setTimeout(() => fn(...args), delay)
-  }) as Fn
-}

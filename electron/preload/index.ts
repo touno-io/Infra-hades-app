@@ -1,5 +1,10 @@
 import { ipcRenderer } from 'electron'
 import { domReady, createPreloading } from './dom'
+// import {
+//   onWindowLoaded,
+//   onWindowActive,
+//   onWindowInactive,
+// } from './event-window'
 
 domReady()
   .then(() => {

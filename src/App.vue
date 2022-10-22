@@ -33,11 +33,6 @@ import HelloWorld from './components/HelloWorld.vue'
       margin: -8px 0 0 -8px;
       width: 100%;
       height: 31px;
-      background-color: var(--user-titlebar-active-background);
-
-      &.inactive {
-        background-color: var(--user-titlebar-inactive-background);
-      }
 
       > .logo > .text {
         font-size: 0.75rem;
@@ -47,10 +42,9 @@ import HelloWorld from './components/HelloWorld.vue'
 
       button.menu {
         -webkit-app-region: no-drag !important;
+        background-color: transparent;
         position: relative;
         width: 45px;
-        color: var(--user-titlebar-active-foreground);
-        background-color: var(--user-titlebar-active-background);
         border: none;
 
         *,

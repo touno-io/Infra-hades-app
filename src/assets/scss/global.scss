@@ -4,8 +4,14 @@ body {
   font-size: 0.85rem;
   font-weight: 400;
   display: grid;
-  color: var(--user-textColor);
-  background-color: var(--user-titlebar-active-background);
+  color: var(--user-text-color);
+  background-color: var(--user-background-color);
+
+  &.inactive {
+    #app > .title .bar {
+      background-color: var(--user-titlebar-background);
+    }
+  }
 
   #app {
     // width: calc(100vw - 2.36em);

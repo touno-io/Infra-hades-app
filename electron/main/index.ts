@@ -1,9 +1,11 @@
-import { app, BrowserWindow, shell, Menu, ipcMain, screen } from 'electron'
+import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { release, arch, platform } from 'os'
 import { join } from 'path'
 import { name } from '../../package.json'
 import { initilizeApp } from '../user-config'
 import settings from 'electron-settings'
+
+import { onWindowPositionEvent } from './event/settings'
 
 // The built directory structure
 //
@@ -66,16 +68,14 @@ async function createWindow() {
     frame: false,
     alwaysOnTop: false,
     titleBarStyle: 'hidden',
+    backgroundColor: user.titlebar.activeBackground,
     titleBarOverlay: {
-      color: user.titleBar.activeBackground,
-      symbolColor: user.titleBar.activeForeground,
+      color: user.titlebar.activeBackground,
+      symbolColor: user.titlebar.activeForeground,
     },
     autoHideMenuBar: true,
     webPreferences: {
       preload,
-      // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
-      // Consider using contextBridge.exposeInMainWorld
-      // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       nodeIntegration: true,
       contextIsolation: false,
     },
@@ -88,66 +88,28 @@ async function createWindow() {
   })
   if (lasted.maximized) win.maximize()
 
-  // Build custome menu
-  const menuTitle = Menu.buildFromTemplate([
-    // {
-    //   label: 'Always On Top',
-    //   sublabel: 'and lock window mode.',
-    //   type: 'checkbox',
-    //   checked: settings.getSync('ontop', false),
-    //   click: (menuItem) => {
-    //     settings.set('ontop', menuItem.checked)
-    //     mainApp.window.setAlwaysOnTop(menuItem.checked)
-    //     mainApp.window.setMovable(!menuItem.checked)
-    //     mainApp.window.setSkipTaskbar(menuItem.checked)
-    //     // mainApp.window.set
-    //     const position = getPosition()
-    //     if (position) mainApp.window.setPosition(position.x, position.y)
-    //   }
-    // },
-    { label: 'Toggle Tools', role: 'toggleDevTools' },
-    { type: 'separator' },
-    { label: 'Exit', role: 'quit' },
-  ])
+  win.on('focus', () => {
+    win.setTitleBarOverlay({
+      color: user.titlebar.activeBackground,
+      symbolColor: user.titlebar.activeForeground,
+    })
+    win.webContents.executeJavaScript(`document.body.classList.remove('inactive')`)
+  })
+  win.on('blur', () => {
+    win.setTitleBarOverlay({
+      color: user.titlebar.inactiveBackground,
+      symbolColor: user.titlebar.inactiveForeground,
+    })
+    win.webContents.executeJavaScript(`document.body.classList.add('inactive')`)
+  })
 
-  const eventSetPosition = () => {
-    let [winX, winY] = win.getPosition()
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize
-    const [winWidth, winHeight] = win.getSize()
-    if (winX < 0) winX = 0
-    if (winX > width - winWidth) winX = width - winWidth
-    if (winY < 0) winY = 0
-    if (winY > height - winHeight) winY = height - winHeight
-    // settings.set('position', { x: winX, y: winY })
-    const config = {
-      maximized: win.isMaximized(),
-      width: winWidth,
-      height: winHeight,
-      x: winX,
-      y: winY,
-    }
-
-    if (config.maximized) {
-      settings.set('position.maximized', config.maximized)
-    } else {
-      settings.set('position', config)
-    }
-  }
-
-  let moveId = null
-  const onMoveEvent = () => {
-    if (moveId) clearTimeout(moveId)
-    moveId = setTimeout(eventSetPosition, 200)
-  }
-  win.on('unmaximize', onMoveEvent)
-  win.on('maximize', onMoveEvent)
-  win.on('moved', onMoveEvent)
-  win.on('move', onMoveEvent)
+  win.on('unmaximize', onWindowPositionEvent(win))
+  win.on('maximize', onWindowPositionEvent(win))
+  win.on('moved', onWindowPositionEvent(win))
 
   ipcMain.handle('init-config', initilizeApp)
-
   ipcMain.handle('open-menu', () => {
-    menuTitle.popup({ window: win, x: 22, y: 16 })
+    console.log('backend')
   })
 
   if (app.isPackaged) {

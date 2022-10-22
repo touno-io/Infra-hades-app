@@ -34,13 +34,20 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
    * https://matejkustec.github.io/SpinThatShit
    */
   const className = `logo-menu`
-  const styleContent = `:root {
+  const styleContent = `
+:root {
   --system-titleBar-height: 1.65em;
-  --user-textColor: ${user.textColor};
-  --user-titlebar-active-foreground: ${user.titleBar.activeForeground};
-  --user-titlebar-active-background: ${user.titleBar.activeBackground};
-  --user-titlebar-inactive-foreground: ${user.titleBar.inactiveForeground};
-  --user-titlebar-inactive-background: ${user.titleBar.inactiveBackground};
+  --user-text-color: ${user.textColor};
+  --user-background-color: ${user.backgroundColor};
+}
+
+body {
+  --user-titlebar-foreground: ${user.titlebar.activeForeground};
+  --user-titlebar-background: ${user.titlebar.activeBackground};
+}
+body.inactive {
+  --user-titlebar-foreground: ${user.titlebar.inactiveForeground};
+  --user-titlebar-background: ${user.titlebar.inactiveBackground};
 }
 
 @keyframes fadeIn {
@@ -52,8 +59,8 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   100% { opacity: 0; }
 }
 @keyframes loader {
-  0% { box-shadow: 0 40px 0 var(--user-titlebar-active-foreground); }
-  100% { box-shadow: 0 20px 0 var(--user-titlebar-active-foreground); }
+  0% { box-shadow: 0 40px 0 var(--user-titlebar-foreground); }
+  100% { box-shadow: 0 20px 0 var(--user-titlebar-foreground); }
 }
 .fade-out { animation: fadeOut .3s both; }
 .fade-in { animation: fadeIn .3s both; }
@@ -62,7 +69,7 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  box-shadow: 0 40px 0 var(--user-titlebar-active-foreground);
+  box-shadow: 0 40px 0 var(--user-titlebar-foreground);
   animation: loader 0.8s ease-in-out alternate infinite;
 }
 .${className}:after, .${className}:before {
@@ -92,7 +99,7 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--user-titlebar-active-background);
+  background: var(--user-titlebar-background);
   z-index: 9;
 }
     `
@@ -105,15 +112,13 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   oDiv.className = 'wrap'
   oDiv.innerHTML = `<div class="${className}"></div>`
 
-  let tPreload: NodeJS.Timeout
   return {
     append() {
       safeDOM.append(document.head, oStyle)
       safeDOM.append(document.body, oDiv)
-      tPreload = setTimeout(this.remove, 5000)
+      document.addEventListener('readystatechange', this.remove)
     },
     remove() {
-      clearTimeout(tPreload)
       oDiv.classList.add('fade-out')
       setTimeout(() => {
         safeDOM.remove(document.body, oDiv)

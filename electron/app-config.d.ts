@@ -7,11 +7,12 @@ declare namespace Global {
 
   export interface UserSetting {
     textColor: string
-    titleBar: {
+    backgroundColor: string
+    titlebar: {
       activeBackground: string
       activeForeground: string
       inactiveBackground: string
-      inactiveForeground: String
+      inactiveForeground: string
     }
   }
 }
