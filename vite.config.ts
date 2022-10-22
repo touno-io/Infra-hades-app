@@ -5,7 +5,7 @@ import electron from 'vite-electron-plugin'
 import wasmPack from 'vite-plugin-wasm-pack'
 import { customStart } from 'vite-electron-plugin/plugin'
 import renderer from 'vite-plugin-electron-renderer'
-import { VitePluginFonts } from 'vite-plugin-fonts'
+// import { VitePluginFonts } from 'vite-plugin-fonts'
 import pkg from './package.json'
 
 rmSync('dist-electron', { recursive: true, force: true })
@@ -13,20 +13,20 @@ rmSync('dist-electron', { recursive: true, force: true })
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    minify: false
+    minify: false,
   },
   plugins: [
     vue(),
-    VitePluginFonts({
-      google: {
-        families: [
-          'Open+Sans',
-          { name: 'Roboto', styles: 'wght@400;700' },
-          { name: 'Poppins', styles: 'wght@400;700' },
-          { name: 'Mulish', styles: 'wght@400;700' }
-        ]
-      },
-    }),
+    // VitePluginFonts({
+    //   google: {
+    //     families: [
+    //       'Open+Sans',
+    //       { name: 'Roboto', styles: 'wght@400;700' },
+    //       { name: 'Poppins', styles: 'wght@400;700' },
+    //       { name: 'Mulish', styles: 'wght@400;700' }
+    //     ]
+    //   },
+    // }),
     electron({
       include: ['electron'],
       transformOptions: {
@@ -42,7 +42,7 @@ export default defineConfig({
       nodeIntegration: true,
     }),
     // wasm pack
-    wasmPack(['.\\hades'])
+    wasmPack(['.\\hades']),
   ],
   server: process.env.VSCODE_DEBUG
     ? (() => {

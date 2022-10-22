@@ -5,7 +5,6 @@ yarn global add wasm-pack
 
 ```
 
-
 🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.
 
 [![awesome-vite](https://awesome.re/mentioned-badge.svg)](https://github.com/vitejs/awesome-vite)
@@ -22,7 +21,7 @@ yarn global add wasm-pack
 🌱 Extensible, really simple directory structure  
 💪 Support using Node.js API in Electron-Renderer  
 🔩 Support C/C++ native addons  
-🖥 It's easy to implement multiple windows  
+🖥 It's easy to implement multiple windows
 
 ## Quick Start
 

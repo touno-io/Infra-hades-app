@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from 'fs'
-import { readFile, writeFile } from 'fs/promises'
+import { writeFile } from 'fs/promises'
 import { join } from 'path'
 import { app } from 'electron'
 import settings from 'electron-settings'
@@ -32,14 +32,14 @@ settings.configure({
   dir: appDefault.config,
   fileName: 'settings.json',
   numSpaces: 2,
-  prettify: true
+  prettify: true,
 })
 
 export const initilizeApp = async () => {
   const themeConfigFile = join(appDefault.config, 'config.yaml')
   const configDefault: Configuration = {
     config: appDefault,
-    user: userDefault
+    user: userDefault,
   }
 
   await writeFile(themeConfigFile, yaml.stringify(configDefault))

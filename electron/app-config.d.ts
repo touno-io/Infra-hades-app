@@ -4,7 +4,7 @@ declare namespace Global {
     width: number
     height: number
   }
-  
+
   export interface UserSetting {
     textColor: string
     titleBar: {

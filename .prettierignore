@@ -1,0 +1,9 @@
+dist/*
+dist-electron/*
+release/*
+
+**/target/
+**/pkg/
+
+*.woff2
+*.json5

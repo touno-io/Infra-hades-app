@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ipcRenderer } from 'electron'
 import HelloWorld from './components/HelloWorld.vue'
-
 </script>
 
 <template>
@@ -18,45 +17,45 @@ import HelloWorld from './components/HelloWorld.vue'
   </div>
   <div class="panel">
     <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-    <div class="static-public">
-      Place static files into the <code>/public</code> folder
-    </div>
+    <div class="static-public">Place static files into the <code>/public</code> folder</div>
   </div>
 </template>
 
 <style lang="scss">
 #app {
   > .title {
-    -webkit-app-region: drag;
     user-select: none;
     grid-area: title;
 
     .bar {
+      -webkit-app-region: drag;
       gap: 4px;
       margin: -8px 0 0 -8px;
       width: 100%;
       height: 31px;
-      background-color: var(--user-titleBar-activeBackground);
-      
+      background-color: var(--user-titlebar-active-background);
+
       &.inactive {
-        background-color: var(--user-titleBar-inactiveBackground);
+        background-color: var(--user-titlebar-inactive-background);
       }
 
       > .logo > .text {
         font-size: 0.75rem;
-        font-family: 'Mulish';
+        font-family: Mulish;
         font-weight: 700;
       }
-      
+
       button.menu {
         -webkit-app-region: no-drag !important;
         position: relative;
         width: 45px;
-        color: v-bind('$user.titleBar.activeForeground');
-        background-color: var(--user-titleBar-activeBackground);
+        color: var(--user-titlebar-active-foreground);
+        background-color: var(--user-titlebar-active-background);
         border: none;
 
-        *, ::after, ::before {
+        *,
+        ::after,
+        ::before {
           animation: none !important;
         }
 
@@ -69,11 +68,10 @@ import HelloWorld from './components/HelloWorld.vue'
         }
       }
     }
-  
   }
+
   > .panel {
     grid-area: panel;
   }
 }
-
 </style>

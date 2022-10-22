@@ -1,18 +1,9 @@
-import {
-  app,
-  BrowserWindow,
-  shell,
-  Menu,
-  ipcMain,
-  screen
-} from 'electron'
+import { app, BrowserWindow, shell, Menu, ipcMain, screen } from 'electron'
 import { release, arch, platform } from 'os'
 import { join } from 'path'
 import { name } from '../../package.json'
 import { initilizeApp } from '../user-config'
 import settings from 'electron-settings'
-
-import {  } from 'process'
 
 // The built directory structure
 //
@@ -62,7 +53,7 @@ async function createWindow() {
   console.log('os:', {
     arch: arch(),
     platform: platform(),
-    release: release()
+    release: release(),
   })
   console.log(' pos:', lasted)
 
@@ -77,7 +68,7 @@ async function createWindow() {
     titleBarStyle: 'hidden',
     titleBarOverlay: {
       color: user.titleBar.activeBackground,
-      symbolColor: user.titleBar.activeForeground
+      symbolColor: user.titleBar.activeForeground,
     },
     autoHideMenuBar: true,
     webPreferences: {
@@ -93,7 +84,7 @@ async function createWindow() {
     width: lasted.width,
     height: lasted.height,
     x: lasted.x,
-    y: lasted.y
+    y: lasted.y,
   })
   if (lasted.maximized) win.maximize()
 
@@ -116,17 +107,17 @@ async function createWindow() {
     // },
     { label: 'Toggle Tools', role: 'toggleDevTools' },
     { type: 'separator' },
-    { label: 'Exit', role: 'quit' }
+    { label: 'Exit', role: 'quit' },
   ])
 
   const eventSetPosition = () => {
-    let [ winX, winY ] = win.getPosition()
+    let [winX, winY] = win.getPosition()
     const { width, height } = screen.getPrimaryDisplay().workAreaSize
-    const [ winWidth, winHeight ] = win.getSize()
+    const [winWidth, winHeight] = win.getSize()
     if (winX < 0) winX = 0
-    if (winX > (width - winWidth)) winX = (width - winWidth)
+    if (winX > width - winWidth) winX = width - winWidth
     if (winY < 0) winY = 0
-    if (winY > (height - winHeight)) winY = (height - winHeight)
+    if (winY > height - winHeight) winY = height - winHeight
     // settings.set('position', { x: winX, y: winY })
     const config = {
       maximized: win.isMaximized(),
@@ -142,7 +133,7 @@ async function createWindow() {
       settings.set('position', config)
     }
   }
-  
+
   let moveId = null
   const onMoveEvent = () => {
     if (moveId) clearTimeout(moveId)
@@ -153,13 +144,12 @@ async function createWindow() {
   win.on('moved', onMoveEvent)
   win.on('move', onMoveEvent)
 
-
   ipcMain.handle('init-config', initilizeApp)
-  
+
   ipcMain.handle('open-menu', () => {
     menuTitle.popup({ window: win, x: 22, y: 16 })
   })
-  
+
   if (app.isPackaged) {
     win.loadFile(indexHtml)
   } else {

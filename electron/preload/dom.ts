@@ -1,5 +1,5 @@
 export const domReady = (condition: DocumentReadyState[] = ['complete', 'interactive']) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (condition.includes(document.readyState)) {
       resolve(true)
     } else {
@@ -14,12 +14,12 @@ export const domReady = (condition: DocumentReadyState[] = ['complete', 'interac
 
 export const safeDOM = {
   append(parent: HTMLElement, child: HTMLElement) {
-    if (!Array.from(parent.children).find(e => e === child)) {
+    if (!Array.from(parent.children).find((e) => e === child)) {
       return parent.appendChild(child)
     }
   },
   remove(parent: HTMLElement, child: HTMLElement) {
-    if (Array.from(parent.children).find(e => e === child)) {
+    if (Array.from(parent.children).find((e) => e === child)) {
       return parent.removeChild(child)
     }
   },
@@ -37,10 +37,10 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   const styleContent = `:root {
   --system-titleBar-height: 1.65em;
   --user-textColor: ${user.textColor};
-  --user-titleBar-activeForeground: ${user.titleBar.activeForeground};
-  --user-titleBar-activeBackground: ${user.titleBar.activeBackground};
-  --user-titleBar-inactiveForeground: ${user.titleBar.inactiveForeground};
-  --user-titleBar-inactiveBackground: ${user.titleBar.inactiveBackground};
+  --user-titlebar-active-foreground: ${user.titleBar.activeForeground};
+  --user-titlebar-active-background: ${user.titleBar.activeBackground};
+  --user-titlebar-inactive-foreground: ${user.titleBar.inactiveForeground};
+  --user-titlebar-inactive-background: ${user.titleBar.inactiveBackground};
 }
 
 @keyframes fadeIn {
@@ -52,8 +52,8 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   100% { opacity: 0; }
 }
 @keyframes loader {
-  0% { box-shadow: 0 40px 0 var(--user-titleBar-activeForeground); }
-  100% { box-shadow: 0 20px 0 var(--user-titleBar-activeForeground); }
+  0% { box-shadow: 0 40px 0 var(--user-titlebar-active-foreground); }
+  100% { box-shadow: 0 20px 0 var(--user-titlebar-active-foreground); }
 }
 .fade-out { animation: fadeOut .3s both; }
 .fade-in { animation: fadeIn .3s both; }
@@ -62,7 +62,7 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  box-shadow: 0 40px 0 var(--user-titleBar-activeForeground);
+  box-shadow: 0 40px 0 var(--user-titlebar-active-foreground);
   animation: loader 0.8s ease-in-out alternate infinite;
 }
 .${className}:after, .${className}:before {
@@ -92,7 +92,7 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--user-titleBar-activeBackground);
+  background: var(--user-titlebar-active-background);
   z-index: 9;
 }
     `

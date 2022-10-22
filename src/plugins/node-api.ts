@@ -6,7 +6,7 @@ declare namespace Global {
       activeForeground: string
       inactiveBackground: string
       inactiveForeground: String
-    },
+    }
     backgroundColor: string
   }
 }
@@ -20,13 +20,12 @@ declare module 'vue' {
 export const configGlobal = (user: Global.UserSetting) => ({
   install(app: any) {
     app.config.globalProperties.$user = user
-  }
+  },
 })
-
 
 // declare module 'vue' {
 //   interface ComponentCustomProperties {
-//     $user: 
+//     $user:
 //   }
 // }
 

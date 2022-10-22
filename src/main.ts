@@ -10,21 +10,16 @@ import AppLayout from './App.vue'
 import { configGlobal } from './plugins/node-api'
 
 import 'bootstrap/scss/bootstrap-grid.scss'
+import './assets/css/fonts.css'
 import './assets/scss/global.scss'
 import './fontAwesome.ts'
 
-
-Promise.all([
-  init(),
-  ipcRenderer.invoke('init-config'),
-]).then(([, { user }]) => {
-  console.log(user)
-  postMessage({ payload: 'remove' }, '*')
-  createApp(AppLayout)
-    .use(configGlobal(user))
-    .component('Fa', FontAwesomeIcon)
-    .mount('#app')
-}).catch((ex: Error) => {
-  console.log(ex)
-})
-
+Promise.all([init(), ipcRenderer.invoke('init-config')])
+  .then(([, { user }]) => {
+    console.log(user)
+    postMessage({ payload: 'remove' }, '*')
+    createApp(AppLayout).use(configGlobal(user)).component('Fa', FontAwesomeIcon).mount('#app')
+  })
+  .catch((ex: Error) => {
+    console.log(ex)
+  })

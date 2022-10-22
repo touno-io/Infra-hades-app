@@ -1,27 +1,26 @@
 body {
-  // Text selection disabled
   user-select: none;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: .85rem;
+  font-size: 0.85rem;
   font-weight: 400;
   display: grid;
   color: var(--user-textColor);
-  background-color: var(--user-titleBar-activeBackground);
+  background-color: var(--user-titlebar-active-background);
 
   #app {
     // width: calc(100vw - 2.36em);
     height: calc(100vh - 1.18em);
     display: grid;
     grid-template-areas:
-      "title"
-      "panel";
-    grid-template-rows: [row1-start] var( --system-titleBar-height);
+      'title'
+      'panel';
+    grid-template-rows: [row1-start] var(--system-titleBar-height);
   }
 
-  :focus-visible  {
+  :focus-visible {
     outline: none !important;
   }
-  
+
   // ScrollBar
   ::-webkit-scrollbar {
     width: 5px;
@@ -38,7 +37,6 @@ body {
     height: 8px;
   }
 
-
   @media only screen and (max-width: 600px) {
     ::-webkit-scrollbar {
       width: 5px;
@@ -52,6 +50,7 @@ body {
       height: 5px;
     }
   }
+
   @media only screen and (max-width: 1024px) {
     .overview-view::-webkit-scrollbar {
       width: 5px;
@@ -64,5 +63,4 @@ body {
     overflow-anchor: none;
     -webkit-overflow-scrolling: touch;
   }
-
 }
