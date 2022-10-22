@@ -9,6 +9,7 @@
   "scripts": {
     "wasm": "wasm-pack build .\\hades --target web",
     "dev": "vite",
+    "lint": "yarn lint:js && yarn lint:style && yarn lint:prettier",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{css,scss,sass,vue,html}\" --ignore-path .gitignore --custom-syntax postcss-html postcss-scss",
     "lint:prettier": "prettier --check .",
