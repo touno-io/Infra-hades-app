@@ -26,6 +26,10 @@ export const safeDOM = {
 }
 
 export const createPreloading = (user: Global.UserSetting): { append(): void; remove(): void } => {
+  const oStyle = document.createElement('style')
+  const oDiv = document.createElement('div')
+
+  oStyle.id = 'loading-style'
   // const rootTheme: string = ''
   /**
    * https://tobiasahlin.com/spinkit
@@ -34,7 +38,7 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
    * https://matejkustec.github.io/SpinThatShit
    */
   const className = `logo-menu`
-  const styleContent = `
+  oStyle.innerHTML = `
 :root {
   --system-titleBar-height: 1.65em;
   --user-text-color: ${user.textColor};
@@ -50,6 +54,9 @@ body.inactive {
   --user-titlebar-background: ${user.titlebar.inactiveBackground};
 }
 
+@keyframes ellipsis {
+  to { width: 22px; }
+}
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -80,7 +87,7 @@ body.inactive {
 .${className} {
   position: relative;
   animation-delay: 0.32s;
-  transform: scale(0.2);
+  transform: scale(0.3);
 }
 .${className}:after {
   right: -30px;
@@ -100,17 +107,37 @@ body.inactive {
   align-items: center;
   justify-content: center;
   background: var(--user-titlebar-background);
+  display: flex;
+  flex-direction: column;
   z-index: 9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--user-text-color);
 }
-    `
-  const oStyle = document.createElement('style')
-  const oDiv = document.createElement('div')
+.wrap .text {
+  color: #919191;
+  font-size: 0.7rem;
+  letter-spacing: .05em;
+  margin-top: 15px;
+}
+// .wrap .text:after {
+//   font-size: 1.3rem;
+//   content: '\\2026';
+//   overflow: hidden;
+//   display: inline-block;
+//   vertical-align: bottom;
+//   animation: ellipsis steps(4, end) 1200ms infinite;
+//   width: 0px;
+// }
 
-  oStyle.id = 'loading-style'
-  oStyle.innerHTML = styleContent
+    `
   oDiv.id = 'loading'
   oDiv.className = 'wrap'
-  oDiv.innerHTML = `<div class="${className}"></div>`
+  oDiv.innerHTML = `
+<div class="payload-icon ${className}"></div>
+<div class="payload-msg"><div class="text">Initialize</div></div>
+`
 
   return {
     append() {
