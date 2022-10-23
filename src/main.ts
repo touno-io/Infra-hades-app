@@ -11,9 +11,9 @@ import AppLayout from './App.vue'
 import router from './router'
 import { configGlobal } from './plugins/node-api'
 
-import 'bootstrap/scss/bootstrap-grid.scss'
-import './assets/css/fonts.css'
 import './assets/scss/global.scss'
+// import 'bootstrap/scss/bootstrap-grid.scss'
+import './assets/css/fonts.css'
 import './fontAwesome.ts'
 
 const initMsg = async (msg: string) => {
