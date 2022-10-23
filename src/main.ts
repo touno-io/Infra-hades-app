@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import AppLayout from './App.vue'
 // import { App } from './env';
 
+import router from './router'
 import { configGlobal } from './plugins/node-api'
 
 import 'bootstrap/scss/bootstrap-grid.scss'
@@ -27,6 +28,7 @@ Promise.all([init(), ipcRenderer.invoke('init-config')])
     console.log({ user })
     initMsg('Starting')
     createApp(AppLayout)
+      .use(router)
       .use(configGlobal(user))
       .component('Fa', FontAwesomeIcon)
       .mount('#app')

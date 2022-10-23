@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ipcRenderer } from 'electron'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
@@ -16,8 +15,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </div>
   </div>
   <div class="panel">
-    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-    <div class="static-public">Place static files into the <code>/public</code> folder</div>
+    <RouterView />
   </div>
 </template>
 
