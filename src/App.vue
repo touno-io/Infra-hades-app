@@ -2,11 +2,17 @@
 import { ref } from 'vue'
 import { ipcRenderer } from 'electron'
 
+import UIDropdownItem from './components/ui/DropdownItem.vue'
+
+const onClick = () => {
+  console.log('asdasda sdasda sd ')
+}
+
 const resizable = ref('16em')
 </script>
 
 <template>
-  <div class="title">
+  <header class="title">
     <div class="bar d-flex position-relative align-items-stretch">
       <a class="menu d-center-flex" @click.prevent="ipcRenderer.invoke('open-menu')">
         <div class="logo-menu" />
@@ -15,159 +21,93 @@ const resizable = ref('16em')
         <img src="./assets/logo.svg" height="22" width="22" alt="Infar Hades" />
         <span class="text">Infra.Hades</span>
       </div>
-      <div class="dropdown" tabindex="1">
-        <a class="profile d-center-flex dropdown-btn">
+      <UIDropdownItem>
+        <template #button>
           <fa icon="fa-solid fa-circle-user" />
-        </a>
-        <ul class="dropdown-menu">
-          <div class="dropdown-triangle" tabindex="1" />
+        </template>
+
+        <template #default>
           <li>
             <a href="#"><fa icon="fa-brands fa-github" /><span>Sign-In</span></a>
           </li>
           <li><hr class="dropdown-divider" /></li>
           <li><a href="#">Options</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
-      </div>
-      <div class="empty d-flex" style="width: 122px" />
+          <li><a href="#demo-modal" @click="onClick">About</a></li>
+        </template>
+      </UIDropdownItem>
+      <div class="empty d-flex" style="width: 122px"></div>
     </div>
-  </div>
+  </header>
   <div class="panel d-grid">
-    <div class="pane pane1"></div>
-    <div class="resizer" role="presentation"></div>
-    <div class="pane pane2 container-fluid">
+    <aside class="pane pane1">
+      <div id="demo-modal" class="modal">
+        <div class="content">
+          <h3>CSS Only Modal</h3>
+          <p>You can use the :target pseudo-class to create a modals with Zero JavaScript. Enjoy!</p>
+          <div class="footer">
+            Made with <i class="fa fa-heart"></i>, by
+            <a href="https://twitter.com/denicmarko" target="_blank">@denicmarko</a>
+          </div>
+          <a href="#" class="close">&times;</a>
+        </div>
+      </div>
+    </aside>
+    <section class="resizer" role="presentation" />
+    <section class="pane pane2 container-fluid">
       <RouterView />
-    </div>
+    </section>
   </div>
 </template>
 
 <style lang="scss">
-/* dd container */
-.dropdown {
-  align-items: stretch;
+.modal {
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  inset: 31px 0 0 0;
   display: flex;
-  outline: none;
+  align-items: center;
+  justify-content: center;
+  background: rgb(12 12 12 / 25%);
+  transition: all 0.2s;
 
-  --dropdown-background: #232426;
-  --dropdown-border-color: #44454a;
-
-  .dropdown-divider {
-    height: 0;
-    margin: 0.5rem 0;
-    overflow: hidden;
+  &:target {
+    visibility: visible;
+    opacity: 1;
   }
 
-  hr {
-    margin: 0.7rem 0;
-    color: inherit;
-    background-color: currentcolor;
-    border: 0;
-    opacity: 0.25;
+  > .content {
+    color: var(--user-text-color);
+    border-radius: 4px;
+    background-color: var(--user-background-color);
+    border: #363636 solid 1px;
+    box-shadow: 0 0.2em 0.6em #00000054;
+    position: relative;
+    width: 500px;
+    max-width: 90%;
+    padding: 1em 2em;
 
-    &:not([size]) {
-      height: 1px;
+    h3 {
+      margin-top: 0;
     }
-  }
 
-  .dropdown-menu {
-    list-style: none;
-    inset: 0 auto auto auto;
-    position: absolute;
-    background-color: var(--dropdown-background);
-    box-shadow: 0 0.2em 0.6em #0003;
-    z-index: 100000;
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.05s ease-out;
-    border: 1px solid var(--dropdown-border-color);
-    border-radius: 3px;
-    transform: translate(-8.7em, 15px);
-    min-width: 10em;
-    padding: 0.5rem 0;
-
-    a {
-      cursor: pointer;
-      display: block;
-      font-size: 0.7rem;
-      color: var(--user-titlebar-foregound);
-      padding: 0.4em 0 0.4em 2.5em;
-      text-decoration: none;
-      transition: 0.02s ease-out;
-
-      > svg {
-        position: absolute;
-        margin: 0.1em 0 0 -1.3em;
-        font-size: 0.8rem;
+    > .footer {
+      text-align: right;
+      a {
+        color: #585858;
       }
-
-      &:hover {
-        background-color: #eaeaea0f;
+      i {
+        color: #d02d2c;
       }
     }
-  }
 
-  .dropdown-btn {
-    -webkit-app-region: no-drag !important;
-    cursor: pointer;
-    transition: 0.02s ease-out;
-
-    > * {
-      transition: outline 0.1s linear;
-      outline: 0px solid transparent;
-      border-radius: 32px;
-    }
-  }
-
-  &:focus {
-    .dropdown-menu {
-      outline: none;
-      visibility: visible;
-      opacity: 1;
-      transform: translate(-8.7em, 20px);
-    }
-
-    .dropdown-btn {
-      > * {
-        outline-width: 3px;
-        outline-color: #ffffff10;
-      }
-    }
-  }
-
-  .dropdown-triangle {
-    width: 0;
-    height: 0;
-    z-index: 10;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid var(--dropdown-border-color);
-    inset: -6px 5px 0px auto;
-    position: absolute;
-
-    &::before {
-      content: '';
-      inset: 1px -6px 0px auto;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 6px solid var(--dropdown-background);
+    > .close {
       position: absolute;
-    }
-
-    &:focus {
-      .dropdown-menu {
-        outline: none;
-        visibility: hidden;
-        opacity: 0;
-      }
-    }
-  }
-
-  &:hover {
-    .dropdown-btn {
-      > * {
-        outline-color: #ffffff40;
-        outline-width: 3px;
-      }
+      top: 10px;
+      right: 10px;
+      color: #585858;
+      text-decoration: none;
     }
   }
 }
@@ -239,8 +179,8 @@ const resizable = ref('16em')
       cursor: col-resize;
     }
 
-    .resizer:hover {
-      background-color: rgb(255 255 255 / 1%);
+    .resizer:active {
+      background-color: rgb(255 255 255 / 5%);
     }
 
     .pane {
