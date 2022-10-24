@@ -40,7 +40,7 @@ export const createPreloading = (user: Global.UserSetting): { append(): void; re
   const className = `logo-menu`
   oStyle.innerHTML = `
 :root {
-  --system-titleBar-height: 1.65em;
+  --system-titleBar-height: 31px;
   --user-text-color: ${user.textColor};
   --user-background-color: ${user.backgroundColor};
 }

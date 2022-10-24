@@ -41,6 +41,12 @@ body {
       'title'
       'panel';
     grid-template-rows: [row1-start] var(--system-titleBar-height);
+
+    .d-center-flex {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   :focus-visible {
