@@ -11,7 +11,7 @@ export default defineComponent({
     }
 
     const onBlurDropdown = () => {
-      if (!hover.value) show.value = !show.value
+      if (!hover.value) show.value = false
     }
 
     return {

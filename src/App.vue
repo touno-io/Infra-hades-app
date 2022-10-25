@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ipcRenderer } from 'electron'
+import { version } from '../package.json'
 
 import UIDropdownItem from './components/ui/DropdownItem.vue'
-
-const onClick = () => {
-  console.log('asdasda sdasda sd ')
-}
 
 const resizable = ref('16em')
 </script>
@@ -32,7 +29,7 @@ const resizable = ref('16em')
           </li>
           <li><hr class="dropdown-divider" /></li>
           <li><a href="#">Options</a></li>
-          <li><a href="#demo-modal" @click="onClick">About</a></li>
+          <li><a href="#demo-modal">About</a></li>
         </template>
       </UIDropdownItem>
       <div class="empty d-flex" style="width: 122px"></div>
@@ -42,11 +39,22 @@ const resizable = ref('16em')
     <aside class="pane pane1">
       <div id="demo-modal" class="modal">
         <div class="content">
-          <h3>CSS Only Modal</h3>
-          <p>You can use the :target pseudo-class to create a modals with Zero JavaScript. Enjoy!</p>
+          <div class="d-flex flex-column align-items-center justify-content-center">
+            <a href="https://github.com/touno-io/Infra-hades-app"></a>
+            <img src="./assets/logo-text.svg" width="200" height="73" alt="logo" />
+            <span>Version v{{ version }}</span>
+            <p>
+              Developed and maintanance by
+              <a href="https://touno.io/s/w9z5?l=app,infar.hades" target="_blank">dvgamerr</a>
+            </p>
+          </div>
           <div class="footer">
-            Made with <i class="fa fa-heart"></i>, by
-            <a href="https://twitter.com/denicmarko" target="_blank">@denicmarko</a>
+            <a class="btn icon github" href="https://touno.io/s/l7cq?l=app,infar.hades" target="_blank">
+              <fa icon="fa-brands fa-square-github" />
+            </a>
+            <a class="btn sponsor" href="https://touno.io/s/lti5?l=app,infar.hades" target="_blank">
+              <fa icon="fa-regular fa-heart" style="color: #db61a2" /> Sponsor
+            </a>
           </div>
           <a href="#" class="close">&times;</a>
         </div>
@@ -84,7 +92,7 @@ const resizable = ref('16em')
     border: #363636 solid 1px;
     box-shadow: 0 0.2em 0.6em #00000054;
     position: relative;
-    width: 500px;
+    width: 400px;
     max-width: 90%;
     padding: 1em 2em;
 
@@ -92,22 +100,65 @@ const resizable = ref('16em')
       margin-top: 0;
     }
 
-    > .footer {
-      text-align: right;
-      a {
-        color: #585858;
+    a {
+      text-decoration: none;
+      color: #00a91dfa;
+
+      &:hover {
+        text-decoration: underline;
       }
-      i {
-        color: #d02d2c;
+    }
+
+    i {
+      color: #d02d2c;
+    }
+
+    > .footer {
+      display: flex;
+      justify-content: flex-end;
+
+      > .btn {
+        font-size: 0.7rem;
+        text-decoration: none !important;
+        border: transparent solid 1px;
+        padding: 5px 8px;
+        transition: 0.1s ease-out;
+        border-radius: 2px;
+        margin: 0 2px;
+
+        &.icon {
+          border-color: transparent !important;
+          padding: 0;
+        }
+
+        &:hover {
+          border-color: #2e2e2e;
+        }
+
+        &:active {
+          border-color: #272727;
+        }
+
+        &.github {
+          color: #fff;
+          font-size: 1.6rem;
+        }
+
+        &.sponsor {
+          color: #fff;
+        }
+
+        svg {
+          font-size: 0.9rem;
+        }
       }
     }
 
     > .close {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      inset: 7px 12px auto auto;
       color: #585858;
-      text-decoration: none;
+      text-decoration: none !important;
     }
   }
 }
