@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "wasm": "wasm-pack build .\\hades --target web",
+    "wasm": "wasm-pack build ./hades --target web",
     "dev": "vite",
     "lint": "yarn lint:js && yarn lint:style && yarn lint:prettier",
     "lint:fix": "yarn lint:js --fix && yarn lint:style --fix && yarn lint:prettier --write",
