@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: [main]
+    tags:
+      - 'v*'
     paths-ignore:
       - '**.md'
       - '**.spec.js'
@@ -57,6 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifact 🚀
+        if: success() && github.event_name != 'pull_request' && !contains(github.ref, 'main')
         uses: actions/upload-artifact@v3
         with:
           name: release_on_${{ matrix. os }}
