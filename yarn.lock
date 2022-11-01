@@ -2805,6 +2805,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+lib-esm@~0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/lib-esm/-/lib-esm-0.3.0.tgz#774d59ef27d3ab2b0485386b5dc70b2556178086"
+  integrity sha512-P7YcG7OnoaGL2h4j46g/m0P2xHMXlYf+0iCDvVrEfzUVxLe+abytgd2VjUhj9puqEgqRGEDbT504YWj75jHacA==
+
 lilconfig@2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.5.tgz#19e57fd06ccc3848fd1891655b5a447092225b25"
@@ -4298,10 +4303,12 @@ vite-electron-plugin@^0.4.6:
     chokidar "^3.5.3"
     fast-glob "^3.2.12"
 
-vite-plugin-electron-renderer@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/vite-plugin-electron-renderer/-/vite-plugin-electron-renderer-0.10.1.tgz#0a1db65b79396f7f008effc6ecf10901e8628b17"
-  integrity sha512-N9QXl1QbwAwZesvxMbWpBvYK4BkL4Xt/812RKCAf1b0eOlwW8jEDXuREsax2GBDdAS5kfOjf8V3Trtu/nFvS0A==
+vite-plugin-electron-renderer@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-electron-renderer/-/vite-plugin-electron-renderer-0.10.2.tgz#d00e9fec4aceedc383ae2f5d6e22c104aea344b5"
+  integrity sha512-p5CD9BGWY2pJYJjzhrlj38aSW6l84rB6FfyzZoNxS1Ur7UD3BYsBJHAMbka4N4FSeeBEdeFl5+gQKpgW5oFX9w==
+  dependencies:
+    lib-esm "~0.3.0"
 
 vite-plugin-fonts@^0.6.0:
   version "0.6.0"
