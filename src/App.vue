@@ -139,17 +139,29 @@ const resizable = ref('16em')
           border-color: #272727;
         }
 
+        svg {
+          font-size: 0.9rem;
+        }
+
         &.github {
           color: #fff;
           font-size: 1.6rem;
+          display: flex;
+          align-items: center;
+          svg {
+            font-size: 1.4rem;
+          }
         }
 
         &.sponsor {
           color: #fff;
-        }
+          display: flex;
+          align-items: center;
+          gap: 3px;
 
-        svg {
-          font-size: 0.9rem;
+          svg {
+            font-size: 1rem;
+          }
         }
       }
     }
